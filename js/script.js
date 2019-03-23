@@ -27,10 +27,6 @@ $( document ).ready(function() {
   $button.addClass('disabled');
   $button.attr('disabled',true);
 
-  //set up a typo error for incorrectly inputted email addresses but hide it on load
-  $('label[for="mail"]').append('<div id="email-typo"><p>It looks like there was a typo in your email address</p></div>');
-  $('#email-typo').hide();
-
   //Set up Validators that must be checked before the form is submittable
 
   let nameValidated = false;
@@ -250,15 +246,13 @@ $( document ).ready(function() {
            emailValidator.removeClass('error');
            emailValidated = true;
            console.log('Email is true');
-           $('#email-typo').hide();
+           $('.email-typo').hide();
        } else {
            emailValidator.addClass('error');
-
+           $('label[for="mail"]').append('<p class="email-typo error-message">Looks like there was a typo in your email address!</div>');
           if(emailValue === ''){
               emailValidator.attr('placeholder','Please enter a valid email');
           }
-
-          $('#email-typo').show();
 
           emailValidated = false;
           console.log('Email is false');
@@ -275,6 +269,7 @@ $( document ).ready(function() {
           console.log('Activity is true');
         } else if ($(this).not(':checked') && runningTotal == 0){
           activityValidated = false;
+          $('#totalCost').append('<div class="activity-error error-message"><p>Please select at least 1 conference activity</p></div>');
           console.log('Activity is false');
         }
       });
@@ -314,10 +309,12 @@ $( document ).ready(function() {
            creditCardZipCode.removeClass('error');
            zipcodeValidated = true;
            console.log('the zipcode is true');
+
          } else {
            creditCardZipCode.addClass('error');
            zipcodeValidated = false;
            console.log('the zipcode is false');
+
          };
       });
 
@@ -334,8 +331,11 @@ $( document ).ready(function() {
            creditCardCvv.addClass('error');
            cvvValidated = false;
            console.log('the cvv is false');
+
          };
       });
+
+      // $cvvTypo = $('label[for="cvv"]');
 
     // check all validators to enable the submit button
 
@@ -344,6 +344,9 @@ $( document ).ready(function() {
         console.log('valid!!!');
         $button.removeClass('disabled')
         $button.attr('disabled',false);
+      } else {
+        $button.addClass('disabled')
+        $button.attr('disabled',true);
       }
     });
 
