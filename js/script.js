@@ -96,10 +96,15 @@ $( document ).ready(function() {
   let mainConference = $('input[name=all')
 
   // select all even-numbered activites EXCEPT Main Conference
-  let evenActivities = $('fieldset.activities').children().children('[type=checkbox]:even').not('[name=all]');
+  let evenActivities = $('fieldset.activities').children().children('[type=checkbox]:even').not('[name=all]').not('[name=npm]');
 
   // select all odd-numbered activites
-  let oddActivities = $('fieldset.activities').children().children('[type=checkbox]:odd');
+  let oddActivities = $('fieldset.activities').children().children('[type=checkbox]:odd').not('[name=build-tools]');
+
+  // select Wednesday activites
+  let wednesdayActivity1 = $('fieldset.activities').children().children('[type=checkbox]').not('[name=all]').not('[name=js-frameworks]').not('[name=js-libs]').not('[name=express]').not('[name=node]').not('[name=npm]');
+
+  let wednesdayActivity2 = $('fieldset.activities').children().children('[type=checkbox]').not('[name=all]').not('[name=js-frameworks]').not('[name=js-libs]').not('[name=express]').not('[name=node]').not('[name=build-tools]');
 
   //-----Conference Cost information-----
 
@@ -163,6 +168,30 @@ $( document ).ready(function() {
         console.log(runningTotal);
       });
 
+      //Wednesday Activities - Add or subtract the cost of the activity to the running total, and update the total cost
+
+      wednesdayActivity1.change(function(){
+        if (wednesdayActivity1.is(':checked')){
+          runningTotal = runningTotal + 100;
+          updateCost();
+        } else if (wednesdayActivity1.not(':checked')){
+          runningTotal = runningTotal - 100;
+          updateCost();
+        };
+        console.log(runningTotal);
+      });
+
+      wednesdayActivity2.change(function(){
+        if (wednesdayActivity2.is(':checked')){
+          runningTotal = runningTotal + 100;
+          updateCost();
+        } else if (wednesdayActivity2.not(':checked')){
+          runningTotal = runningTotal - 100;
+          updateCost();
+        };
+        console.log(runningTotal);
+      });
+
 
   //----------ACTIVITIES INFO------------
 
@@ -200,6 +229,11 @@ $( document ).ready(function() {
       $button.addClass('disabled');
       $button.attr('disabled',true);
       $payWithCreditCard();
+    } else if (userPayment === 'select_method'){
+      ccValidated = true;
+      zipcodeValidated = true;
+      cvvValidated = true;
+      $('#credit-card').hide().next().hide().next().hide();
     }
   });
 
